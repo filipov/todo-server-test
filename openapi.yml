@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: RUST ToDo Server API
+  description: |-
+    Реализация простого API сервера для работы со списком задач.
+  
+  version: 2.0.0
+
+servers:
+  - url: http://localhost:8080/
+    description: Тест
+
+tags:
+  - name: tasks
+    description: Методы для работы с задачами
+
+paths:
+  /tasks:
+    get:
+      summary: Получение списка задач
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: Списко задач
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'            
+        '400':
+          $ref: '#/components/responses/422'
+    post:
+      summary: Добавить задачу
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      tags:
+        - tasks
+      responses:
+        '201':
+          description: Успешное добавление задачи
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Task'            
+        '400':
+          $ref: '#/components/responses/422'
+  /tasks/{id}:
+    patch:
+      summary: Смена статуса задачи
+      tags:
+        - tasks
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Успешное смена статуса
+        '400':
+          $ref: '#/components/responses/422'
+    delete:
+      summary: Удалить способ оповещения
+      tags:
+        - tasks
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Успешное удаление pflfxb
+        '400':
+          $ref: '#/components/responses/422'
+  
+
+components:
+  responses:
+    '422':
+      description: Ошибка валидации
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    Error:
+      type: string
+
+      required:
+        - field
+        - error
+        - message
+    ErrorResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Error'
+    Task:
+      type: object
+      properties:
+        id: 
+          type: string
+        name:
+          type: string
+        is_finished:
+          type: boolean
