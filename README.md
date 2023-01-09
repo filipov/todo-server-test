@@ -15,4 +15,4 @@ https://www.figma.com/community/file/1080893764520102996
 
 # Запуск сервера
 
-В папке bin лежат сборки под osX и Win64.
+https://github.com/filipov-dev/simple-todo-server-app/releases
